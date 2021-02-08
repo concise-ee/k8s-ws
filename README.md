@@ -1,6 +1,8 @@
-# k8s-ws
+# Kubernetes workshop
 
 ## Step 0: Preparations
+
+Let's get ready for the workshop, so everyone would be prepared.
 
 ### Install required software
 Please install these:
@@ -14,8 +16,6 @@ Please install these:
     * if `docker ps` fails, open "Docker Desktop" GUI in Windows -> Settings -> Resources -> WSL INTEGRATION -> "Enable integration with my default WSL distro"
   * alternative: use powershell (you can use git bash for most of the things, but kubectl interactive needs powershell in windows)
 
-Now you are ready, tools-wise, but there is one more step to do before you can start hacking the kubernetes:
-login to google cloud to get access to the WS cluster and docker repository, so 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 Open the terminal, define some variables:
 ```shell
@@ -23,7 +23,7 @@ k8sNamespace=your-name
 k8sCluster=k8s-ws-???
 gCloudProject=k8s-ws-???
 ```
-and run these one by one:
+and run following lines one by one:
 ```shell
 # after following command browser will be opened, where you should log into google cloud with Concise email to authenticate `gcloud` CLI
 gcloud auth login
@@ -53,6 +53,10 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 
 
 ## Step 1: Create java application
+
+Lets generate an application that has health endpoint (needed for k8s).
+> No worries, you don't need to have Java, Gradle etc installed locally - that will be built in docker!
+
 1. Go to this webpage: https://start.spring.io
 2. Choose these options
     1. Project: Gradle Project
@@ -70,6 +74,8 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 
 ## Step 2: Dockerize the java application
 
+Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
+
 1. Copy Dockerfile to the root of the java application
 2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_${k8sNamespace}`
 3. Build it ```docker build --tag ${demoAppName}:latest .```
@@ -80,6 +86,8 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 
 
 ## Step 3: Create deployment
+
+Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update stragegy.
 
 Configure k8s context and namespace to be used for following commands
 (to avoid passing `--context` and `--namespace` with each following command)
@@ -125,6 +133,7 @@ If you have managed to get pod into "Running" state, experiment with deleting:
 ```shell
 # try deleting pod...
 kubectl delete pod ${podname}
+
 # ... and see what happened
 kubectl get pods
 ```
@@ -142,6 +151,9 @@ kubectl get pods
 
 
 ## Step 4: Create service
+
+Let's create a sevice, so all our healthy application pods would be accessible from same (non-public) endpoint of the service.
+
 ```shell
 kubectl apply -f service.yaml
 ```
@@ -184,6 +196,9 @@ curl demo.${k8sNamespace}.svc.cluster.local/actuator/health
 
 
 ## Step 5: Create ingress
+
+Let's make the service accessible from public web (via IP-address).
+
 ```shell
 kubectl apply -f ingress.yaml
 ```
@@ -201,6 +216,9 @@ from public internet (i.e. using your browser or curl)
 
 
 ## Step 5: Create autoscaler
+
+Let's make our service scale horizontally based on actual usage.
+
 Autoscaler works on comparing actual resource usage
 (see `kubectl top pods`)
 to requested resources (see deployment resources.requests).
@@ -239,6 +257,11 @@ soon you should see an increase in CPU usage
 and after about half minute you should see effects of autoscaler.
 
 ## Step 6: Create configmap
+
+Let's attach configmap as file to our containers.
+> When creating deployment we provided some configuration values via environment variables.
+> Using secrets would be another option (out of the scope for this WS).
+
 Create configuration source file for k8s configmap, for example `some.conf`:
 ```properties
 test=1
