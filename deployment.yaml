@@ -17,29 +17,28 @@ spec:
         app: demo
     spec:
       containers:
-      - image: eu.gcr.io/k8s-ws-7/mikk1:3
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1000Mi
-          requests:
-            cpu: 100m
-            memory: 600Mi
-        name: demo
-        env:
-          - name: SPRING_PROFILES_ACTIVE
-            value: STAGING
-          - name: JAVA_OPTS
-            value: -Xmx256m -Xms256m
-        ports:
-        - containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 8080
-        livenessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 100
-
+        - image: eu.gcr.io/k8s-ws-7/mikk1:3
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 600Mi
+          name: demo
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: STAGING
+            - name: JAVA_OPTS
+              value: -Xmx256m -Xms256m
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 100
