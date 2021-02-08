@@ -196,5 +196,32 @@ kubectl describe ingress demo
 ```
 Configuring ingress cloud load balancer may take some time (even 5 minutes),
 but eventually you should be able to access
-`${incressIpAddress}/actuator/health`
+`${ingressIpAddress}/actuator/health`
 from public internet (i.e. using your browser or curl)
+
+
+## Step 5: Create autoscaler
+Autoscaler works on comparing actual resource usage
+(see `kubectl top pods`)
+to requested resources (see deployment resources.requests).
+
+```shell
+kubectl apply -f autoscaler.yaml
+```
+
+Use following command to see pods CPU and memory usage
+```shell
+kubectl top pods
+```
+
+Generate load to your service with following command (NB! replace `${ingressIpAddress}`):
+```shell
+bash \
+  <(curl -s https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/local.sh) \
+  deploy \
+  --target=http://${ingressIpAddress}/actuator/health \
+  --locust-file=https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/example/simple.py \
+  --slaves=4 --mode=automatic \
+  --users=100 --hatch-rate=30 --duration=120
+```
+
