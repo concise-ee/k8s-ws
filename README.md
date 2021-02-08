@@ -209,12 +209,23 @@ to requested resources (see deployment resources.requests).
 kubectl apply -f autoscaler.yaml
 ```
 
-Use following command to see pods CPU and memory usage
+Use following commands:
 ```shell
+# to see autoscalers
+kubectl get horizontalpodautoscalers
+
+# to see pods CPU and memory usage
 kubectl top pods
 ```
 
-Generate load to your service with following command (NB! replace `${ingressIpAddress}`):
+Watch what happens to pods and autoscaler:
+```
+# on linux you can use `watch` to evaluate expression periodically:
+watch "kubectl top pods && kubectl get pods,horizontalpodautoscalers"
+```
+
+In another console generate load to your service with following command
+(NB! replace `${ingressIpAddress}`):
 ```shell
 bash \
   <(curl -s https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/local.sh) \
@@ -224,7 +235,8 @@ bash \
   --slaves=4 --mode=automatic \
   --users=100 --hatch-rate=30 --duration=120
 ```
-
+soon you should see an increase in CPU usage
+and after about half minute you should see effects of autoscaler.
 
 ## Step 6: Create configmap
 Create configuration source file for k8s configmap, for example `some.conf`:
