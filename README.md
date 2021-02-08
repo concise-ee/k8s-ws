@@ -78,3 +78,64 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 6. Tag the docker image ```docker tag ${demoAppName}:latest eu.gcr.io/${gCloudProject}/${demoAppName}:1```
 7. Push the docker image to docker repository ```docker push eu.gcr.io/${gCloudProject}/${demoAppName}:1```
 
+
+## Step 3: Create deployment
+
+Configure k8s context and namespace to be used for following commands
+(to avoid passing `--context` and `--namespace` with each following command)
+```shell
+# see what namespaces you could use
+kubectl get namespaces
+
+# Set kubectl against certain namespace (default ns is the default, but we want to deploy to your own ns)
+kubectl config set-context $(kubectl config current-context) --namespace=${k8sNamespace}
+
+# see all contexts and which of them is currently selected and what namespace is currently selected:
+kubectl config get-contexts
+```
+
+See the current state of k8s resources:
+```shell
+# You can get different types of resources at once
+kubectl get pods,deployments,nodes
+
+# before running next command you shouldn't have any pods
+kubectl get pods
+```
+
+Create deployment (uploads manifest from given file to kubernetes)
+```shell
+# NB! you probably want to replace image reference with your own, but you could try with default as well
+kubectl apply -f deployment.yaml
+```
+
+See if deployment created pod (hopefully in ContainerCreating and soon in Running status)
+```shell
+# now you should see one pod (in selected namespace of selected k8s cluster)
+kubectl get pods
+
+# Investigate events (specially if pod isn't in running status)
+kubectl describe pod ${podname}
+
+# Investigate pod logs
+kubectl logs ${podname}
+```
+
+If you have managed to get pod into "Running" state, experiment with deleting:
+```shell
+# try deleting pod...
+kubectl delete pod ${podname}
+# ... and see what happened
+kubectl get pods
+```
+
+Try adding more pods of the same deployment:
+```shell
+# open deployment manifest for in-line editing (note this doesn't change your deployment.yaml)
+kubectl edit deployment demo
+
+#change `replicas: 2`, save and quit
+
+# check number of pods: 
+kubectl get pods
+```
