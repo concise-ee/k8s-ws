@@ -67,11 +67,14 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 4. Generate (download)
 5. Unzip to a folder in your computer
 
-## Step 3: Dockerize the java application
+
+## Step 2: Dockerize the java application
 
 1. Copy Dockerfile to the root of the java application
-2. Build it ```docker build -t _myname_:latest .```
-3. Run it locally ```docker run --name _myname_ -p 8080:8080 _myname_:latest```
-4. Open browser and check the health endpoint responds at ```http://localhost:8080/actuator/health```
-5. Tag the docker image ```docker tag _myname_:latest eu.gcr.io/k8s-ws-x/_myname_:1```
-6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-x/_myname_:1```
+2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_${k8sNamespace}`
+3. Build it ```docker build --tag ${demoAppName}:latest .```
+4. Run it locally in foreground: ```docker run --name ${demoAppName} -p 8080:8080 ${demoAppName}:latest```
+5. Open browser and check the health endpoint responds at ```http://localhost:8080/actuator/health```
+6. Tag the docker image ```docker tag ${demoAppName}:latest eu.gcr.io/${gCloudProject}/${demoAppName}:1```
+7. Push the docker image to docker repository ```docker push eu.gcr.io/${gCloudProject}/${demoAppName}:1```
+
