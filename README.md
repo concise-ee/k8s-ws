@@ -139,3 +139,45 @@ kubectl edit deployment demo
 # check number of pods: 
 kubectl get pods
 ```
+
+
+## Step 4: Create service
+```shell
+kubectl apply -f service.yaml
+```
+
+Get information about the service, pods and namespaces used later
+```shell
+# Check which services you have now
+kubectl get svc
+# Check the details of that service
+kubectl describe svc demo
+# Check the ip of your pod
+kubectl get pods -o wide
+# Check other namespaces
+kubectl get namespaces
+```
+
+Log into one container...
+```shell
+# "log in" to the running container
+kubectl exec -it ${podname} -- /bin/sh
+```
+... and execute following commands from there:
+```shell
+# How to access your running java app inside the same container
+curl localhost:8080/actuator/health
+
+# How service is accessing your pod, note the port of 8080
+# (theoretical, usually you don't need the pod ip at all)
+curl ${somePodip}:8080/actuator/health
+
+# How to access your java app via service ip (not via DNS)
+curl ${svc-cluster-ip}/actuator/health
+
+# How to access a service in your own namespace (DNS)
+curl demo/actuator/health
+
+# How to access a service in any namespace (DNS)
+curl demo.${k8sNamespace}.svc.cluster.local/actuator/health
+```

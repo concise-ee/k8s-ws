@@ -9,5 +9,6 @@ spec:
       targetPort: 8080
       protocol: TCP
       name: http
+  # pods selector for routing traffic
   selector:
     app: demo
