@@ -9,6 +9,7 @@ spec:
     rollingUpdate:
       maxSurge: 1
   selector:
+    # defines how the Deployment finds which Pods to manage
     matchLabels:
       app: demo
   template:
@@ -17,14 +18,18 @@ spec:
         app: demo
     spec:
       containers:
+        # container image is referenced from GCR (Google Container Registry)
         - image: eu.gcr.io/k8s-ws-7/mikk1:3
           resources:
+            # how much resources container is guaranteed to get
+            requests:
+              # defined in millicores
+              cpu: 100m
+              memory: 600Mi
+            # upper limit that container can acquire even if node has plenty of resources
             limits:
               cpu: 1000m
               memory: 1000Mi
-            requests:
-              cpu: 100m
-              memory: 600Mi
           name: demo
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -33,12 +38,14 @@ spec:
               value: -Xmx256m -Xms256m
           ports:
             - containerPort: 8080
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
+          # used to check if application is healthy
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
             initialDelaySeconds: 100
+          # used to check if it is ready (i.e. could route traffic)
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
