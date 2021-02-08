@@ -73,7 +73,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 1. Copy Dockerfile to the root of the java application
 2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_${k8sNamespace}`
 3. Build it ```docker build --tag ${demoAppName}:latest .```
-4. Run it locally in foreground: ```docker run --name ${demoAppName} -p 8080:8080 ${demoAppName}:latest```
+4. Run it locally in foreground: ```docker run --name ${demoAppName} --rm -p 8080:8080 ${demoAppName}:latest```
 5. Open browser and check the health endpoint responds at ```http://localhost:8080/actuator/health```
 6. Tag the docker image ```docker tag ${demoAppName}:latest eu.gcr.io/${gCloudProject}/${demoAppName}:1```
 7. Push the docker image to docker repository ```docker push eu.gcr.io/${gCloudProject}/${demoAppName}:1```
