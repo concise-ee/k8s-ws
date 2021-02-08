@@ -1,6 +1,6 @@
 # k8s-ws
 
-## Preparations
+## Step 0: Preparations
 
 ### Install required software
 Please install these:
@@ -19,7 +19,7 @@ login to google cloud to get access to the WS cluster and docker repository, so
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 Open the terminal, define some variables:
 ```shell
-k8sNamespace=your-firstName-lastName
+k8sNamespace=your-name
 k8sCluster=k8s-ws-???
 gCloudProject=k8s-ws-???
 ```
@@ -52,12 +52,12 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 ```
 
 
-## Create java application
+## Step 1: Create java application
 1. Go to this webpage: https://start.spring.io
 2. Choose these options
     1. Project: Gradle Project
     2. Language: Java
-    3. Spring Boot: 2.4.1
+    3. Spring Boot: 2.4.2
     4. Project metadata:
         1. defaults
         2. Java: 11
@@ -67,7 +67,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 4. Generate (download)
 5. Unzip to a folder in your computer
 
-## Dockerize the java application
+## Step 3: Dockerize the java application
 
 1. Copy Dockerfile to the root of the java application
 2. Build it ```docker build -t _myname_:latest .```
