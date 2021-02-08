@@ -181,3 +181,20 @@ curl demo/actuator/health
 # How to access a service in any namespace (DNS)
 curl demo.${k8sNamespace}.svc.cluster.local/actuator/health
 ```
+
+
+## Step 5: Create ingress
+```shell
+kubectl apply -f ingress.yaml
+```
+
+After about minute you should be able to see ingress IP address using either of following commands:
+```shell
+# now you should see one ingress (in selected namespace of selected k8s cluster)
+kubectl get ingress
+kubectl describe ingress demo
+```
+Configuring ingress cloud load balancer may take some time (even 5 minutes),
+but eventually you should be able to access
+`${incressIpAddress}/actuator/health`
+from public internet (i.e. using your browser or curl)
