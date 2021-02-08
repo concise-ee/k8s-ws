@@ -225,3 +225,60 @@ bash \
   --users=100 --hatch-rate=30 --duration=120
 ```
 
+
+## Step 6: Create configmap
+Create configuration source file for k8s configmap, for example `some.conf`:
+```properties
+test=1
+props=2
+```
+
+Use that configuration file to create configmap:
+```shell
+kubectl create configmap demo --from-file=some.conf
+```
+
+Inspect configmaps:
+```shell
+kubectl get configmaps
+kubectl describe configmap demo
+```
+
+Update your deployment.yaml with configMap mounted from volume:
+```diff
+             httpGet:
+               path: /actuator/health
+               port: 8080
++          volumeMounts:
++            - mountPath: /conf
++              name: conf
++      volumes:
++        - name: conf
++          configMap:
++            name: demo
++            items:
++              - key: some.conf
++                path: some.conf
+```
+
+Apply changes in deployment:
+```shell
+kubectl apply -f deployment.yaml
+```
+
+Check that mount and volume appears in deployment description:
+```shell
+kubectl describe deployment demo | grep ount -A 6
+```
+
+Log into running container...
+```shell
+kubectl get pods
+# "log in" to the running container
+kubectl exec -it ${podname} -- /bin/sh
+```
+... and check if conf was actually mounted as file by executing following commands:
+```shell
+# should see the same conf you created
+cat /conf/some.conf
+```
