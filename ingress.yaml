@@ -7,13 +7,13 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     # We rewrite the path /${yourName} to /, so if you go to browser with 35.189.236.126.xip.io/${yourName}/actuator/health,
     # it will resolve it to /actuator/health in the application (without the yourname in the path)
-    nginx.org/rewrites: "serviceName=demo rewrite=/"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-    - host: 35.189.236.126.xip.io
+    - host: 35.189.238.94.xip.io
       http:
         paths:
-          - path: /${yourName}
+          - path: /${yourName}/(.*)
             backend:
               serviceName: demo
               servicePort: http

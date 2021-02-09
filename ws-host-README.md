@@ -17,17 +17,18 @@ and everyone has to set a path in `ingress` to *your name*.
 Then we do the rewrite in `ingress.yaml` so the application still gets the path as `/actuator/health` and not `/name/actuator/health`
 
 ### What you have to do
-https://cloud.google.com/community/tutorials/nginx-ingress-gke
+https://kubernetes.github.io/ingress-nginx/deploy/
 
-1. Before you deploy the NGINX Ingress Helm chart to the GKE cluster, add the nginx-stable Helm repository in Cloud Shell:
+1. Initialize your user as a cluster-admin with the following command:
 ```shell
-helm repo add nginx-stable https://helm.nginx.com/stable
-helm repo update
+kubectl create clusterrolebinding cluster-admin-binding \
+  --clusterrole cluster-admin \
+  --user $(gcloud config get-value account)
 ```
 
 2. Deploy an NGINX controller Deployment and Service by running the following command:
 ```shell
-helm install nginx-ingress nginx-stable/nginx-ingress
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
 3. Verify that the nginx-ingress-controller Deployment and Service are deployed to the GKE cluster:
