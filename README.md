@@ -197,22 +197,24 @@ curl demo.${k8sNamespace}.svc.cluster.local/actuator/health
 
 ## Step 5: Create ingress
 
-Let's make the service accessible from public web (via IP-address).
+Let's make the service accessible from public web (via IP-address/hostname).
+
+Replace the public path name in `ingress.yaml` from `${yourName}` to *your name*.
 
 ```shell
 kubectl apply -f ingress.yaml
 ```
 
-After about minute you should be able to see ingress IP address using either of following commands:
+You should be able to see host address using either of following commands:
 ```shell
 # now you should see one ingress (in selected namespace of selected k8s cluster)
 kubectl get ingress
 kubectl describe ingress demo
 ```
-Configuring ingress cloud load balancer may take some time (even 5 minutes),
-but eventually you should be able to access
-`${ingressIpAddress}/actuator/health`
-from public internet (i.e. using your browser or curl)
+
+You should be able to access
+`http://${hostName}/${yourName}/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://35.189.236.126.xip.io/mikk/actuator/health`
 
 
 ## Step 5: Create autoscaler
@@ -243,12 +245,12 @@ watch "kubectl top pods && kubectl get pods,horizontalpodautoscalers"
 ```
 
 In another console generate load to your service with following command
-(NB! replace `${ingressIpAddress}`):
+(NB! replace `${hostName}` and `${yourName}` ):
 ```shell
 bash \
   <(curl -s https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/local.sh) \
   deploy \
-  --target=http://${ingressIpAddress}/actuator/health \
+  --target=http://${hostName}/${yourName}/actuator/health \
   --locust-file=https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/example/simple.py \
   --slaves=4 --mode=automatic \
   --users=100 --hatch-rate=30 --duration=120

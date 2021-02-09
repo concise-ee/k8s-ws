@@ -1,12 +1,19 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: demo
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # We rewrite the path /${yourName} to /, so if you go to browser with 35.189.236.126.xip.io/${yourName}/actuator/health,
+    # it will resolve it to /actuator/health in the application (without the yourname in the path)
+    nginx.org/rewrites: "serviceName=demo rewrite=/"
 spec:
   rules:
-    - http:
+    - host: 35.189.236.126.xip.io
+      http:
         paths:
-          - path: /*
+          - path: /${yourName}
             backend:
               serviceName: demo
               servicePort: http
