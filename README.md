@@ -32,7 +32,8 @@ gcloud auth login
 gcloud container clusters get-credentials ${k8sCluster} --zone europe-west1-b --project ${gCloudProject}
 
 # register gcloud as a Docker credential helper (~/.docker/config.json)
-gcloud auth configure-docker
+gcloud components install docker-credential-gcr
+docker-credential-gcr configure-docker
 
 # check that `kubectl` is properly installed (at least version 1.16)
 kubectl version
