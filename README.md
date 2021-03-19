@@ -217,6 +217,9 @@ You should be able to access
 `http://${hostName}/${yourName}/actuator/health`
 from public internet (i.e. using your browser or curl). The full url should look like `http://35.189.236.126.xip.io/mikk/actuator/health`
 
+> Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
+> `watch "kubectl get ingress && kubectl describe ingress demo && curl http://${hostName}/${yourName}/actuator/health"`
+
 
 ## Step 5: Create autoscaler
 
