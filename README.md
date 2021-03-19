@@ -9,12 +9,10 @@ Please install these:
 * docker (https://docs.docker.com/install/)
 * gcloud SDK (https://cloud.google.com/sdk/install)
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.16
-* Windows users, you have a couple of options:
-  * easiest to follow Linux / Mac instructions:
+* Windows users:
     * install WSL https://docs.microsoft.com/en-us/windows/wsl/install-win10
     * install some linux distro via WLS, for example ubuntu (and use its command-line)
     * if `docker ps` fails, open "Docker Desktop" GUI in Windows -> Settings -> Resources -> WSL INTEGRATION -> "Enable integration with my default WSL distro"
-  * alternative: use powershell (you can use git bash for most of the things, but kubectl interactive needs powershell in windows)
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 Open the terminal, define some variables:
@@ -45,10 +43,6 @@ kubectl get nodes
 kubectl create namespace ${k8sNamespace}
 
 # Configure your namespace as default
-# NB! Windows cmd users, use bash on windows or run
-# `kubectl config current-context`
-# then
-# `kubectl config set-context ${outputFromPreviousCommand} --namespace=${k8sNamespace}`
 kubectl config set-context $(kubectl config current-context) --namespace=${k8sNamespace}
 ```
 
