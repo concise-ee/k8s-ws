@@ -2,6 +2,20 @@
 
 Stuff to do in order to prepare the workshop
 
+## Prepare cloud env 
+Use same name for Google Cloud project and k8s cluster, for example
+k8s-ws-${number of the workshop}
+
+### Create G-Cloud project
+
+### Create Kubernetes cluster
+cluster type: standard
+Location type: Zonal; zone: europe-west1-b
+Wait about 5 minutes until cluster is created
+
+### Add participants
+IAM -> Add -> enter participant emails -> role: Basic>Editor -> Save
+
 ## Create global ingress controller
 
 ### Background information
