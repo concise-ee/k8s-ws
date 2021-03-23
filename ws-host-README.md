@@ -11,6 +11,7 @@ k8s-ws-${number of the workshop}
 ### Create Kubernetes cluster
 cluster type: standard
 Location type: Zonal; zone: europe-west1-b
+NB! Set autoscaling for node-pool, min 1 node max 10
 Wait about 5 minutes until cluster is created
 
 ### Add participants
