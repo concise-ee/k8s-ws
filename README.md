@@ -11,7 +11,21 @@ Please install these:
     * install WSL https://docs.microsoft.com/en-us/windows/wsl/install-win10
     * install some linux distro via WLS, for example Ubuntu (and use its command-line)
     * if `docker ps` fails, open "Docker Desktop" GUI in Windows -> Settings -> Resources -> WSL INTEGRATION -> "Enable integration with my default WSL distro"
+    * Use WSL console instead of Windows cmd or PowerShell for this workshop, including installing other software
+      (docker is already installed in Ubuntu).
 * gcloud SDK (https://cloud.google.com/sdk/install)
+  * Windows users:
+    * Install gcloud SDK via WSL
+    * If installing Google Cloud SDK fails according to
+      [official linux instructions](https://cloud.google.com/sdk/install) 
+      via apt-get or yum because docker-credential-gcr is not supported, then
+      * download the tar.gz file 
+      `wget "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-332.0.0-linux-x86_64.tar.gz"`.
+      > Make sure to use the recent version of the SDK.
+      * then unpack 
+      `tar -zxf google-cloud-sdk-332.0.0-linux-x86_64.tar.gz`
+      * run the shell installation process with
+      `./google-cloud-sdk/install.sh`
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.16
 * Linux users:
     * Verify that you can use docker without sudo (https://docs.docker.com/engine/install/linux-postinstall/) 
