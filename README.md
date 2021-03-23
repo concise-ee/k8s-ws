@@ -122,7 +122,7 @@ kubectl get pods,deployments,nodes
 kubectl get pods
 ```
 
-Create deployment (uploads manifest from given file to kubernetes)
+Create [deployment](deployment.yaml) (uploads manifest from given file to kubernetes)
 ```shell
 # NB! you probably want to replace image reference with your own, but you could try with default as well
 kubectl apply -f deployment.yaml
@@ -163,7 +163,7 @@ kubectl get pods
 
 ## Step 4: Create service
 
-Let's create a service, so all our healthy application pods would be accessible from same (non-public) endpoint of the service.
+Let's create a [service](service.yaml), so all our healthy application pods would be accessible from same (non-public) endpoint of the service.
 
 ```shell
 kubectl apply -f service.yaml
@@ -210,7 +210,7 @@ curl demo.${k8sNamespace:-changeMe}.svc.cluster.local/actuator/health
 
 Let's make the service accessible from the public web (via IP-address/hostname).
 
-Replace the public path name in `ingress.yaml` from `${yourName}` to *your name*.
+Replace the public path name in [ingress.yaml](ingress.yaml) from `${yourName}` to *your name*.
 
 ```shell
 kubectl apply -f ingress.yaml
