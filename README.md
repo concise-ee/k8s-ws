@@ -9,6 +9,8 @@ Please install these:
 * docker (https://docs.docker.com/install/)
 * gcloud SDK (https://cloud.google.com/sdk/install)
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.16
+* Linux users:
+    * Verify that you can use docker without sudo (https://docs.docker.com/engine/install/linux-postinstall/) 
 * Windows users:
     * install WSL https://docs.microsoft.com/en-us/windows/wsl/install-win10
     * install some linux distro via WLS, for example ubuntu (and use its command-line)
