@@ -69,6 +69,12 @@ If it doesn't work without sudo, follow
 [Docker Post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
 to allow non-privileged users to run Docker commands.
 
+Check that you’ve initialized variables in the terminal tab you are working:
+```sh
+echo "k8sNamespace=$k8sNamespace\ngCloudProject=$gCloudProject"
+```
+or don't forget to replace them in commands bellow.
+
 
 ## Step 1: Create java application
 
@@ -119,6 +125,8 @@ kubectl config set-context $(kubectl config current-context) --namespace=${k8sNa
 # see all contexts and which of them is currently selected and what namespace is currently selected:
 kubectl config get-contexts
 ```
+> You should see exactly one context when executing following command to check that your namespace is configured for current context:
+`kubectl config get-contexts | grep "k8s-ws-" | grep "*" | grep ${k8sNamespace}`
 
 See the current state of k8s resources:
 ```shell
