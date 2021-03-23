@@ -27,8 +27,6 @@ Please install these:
       * run the shell installation process with
       `./google-cloud-sdk/install.sh`
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.16
-* Linux users:
-    * Verify that you can use docker without sudo (https://docs.docker.com/engine/install/linux-postinstall/) 
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 Open the terminal, define some variables:
@@ -61,6 +59,15 @@ kubectl create namespace ${k8sNamespace}
 # Configure your namespace as default
 kubectl config set-context $(kubectl config current-context) --namespace=${k8sNamespace}
 ```
+
+### Verify configuration
+Make sure that docker doesn't need sudo when running:
+```sh
+docker run hello-world
+```
+If it doesn't work without sudo, follow 
+[Docker Post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
+to allow non-privileged users to run Docker commands.
 
 
 ## Step 1: Create java application
