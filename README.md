@@ -120,16 +120,16 @@ See if deployment created pod (hopefully in ContainerCreating and soon in Runnin
 kubectl get pods
 
 # Investigate events (specially if pod isn't in running status)
-kubectl describe pod ${podname}
+kubectl describe pod ${podname:-changeMe}
 
 # Investigate pod logs
-kubectl logs ${podname}
+kubectl logs ${podname:-changeMe}
 ```
 
 If you have managed to get pod into "Running" state, experiment with deleting:
 ```shell
 # try deleting pod...
-kubectl delete pod ${podname}
+kubectl delete pod ${podname:-changeMe}
 
 # ... and see what happened
 kubectl get pods
@@ -170,7 +170,7 @@ kubectl get namespaces
 Log into one container...
 ```shell
 # "log in" to the running container
-kubectl exec -it ${podname} -- /bin/sh
+kubectl exec -it ${podname:-changeMe} -- /bin/sh
 ```
 ... and execute following commands from there:
 ```shell
@@ -179,16 +179,16 @@ curl localhost:8080/actuator/health
 
 # How service is accessing your pod, note the port of 8080
 # (theoretical, usually you don't need the pod ip at all)
-curl ${somePodip}:8080/actuator/health
+curl ${somePodip:-changeMe}:8080/actuator/health
 
 # How to access your java app via service ip (not via DNS)
-curl ${svc-cluster-ip}/actuator/health
+curl ${svc-cluster-ip:-changeMe}/actuator/health
 
 # How to access a service in your own namespace (DNS)
 curl demo/actuator/health
 
 # How to access a service in any namespace (DNS)
-curl demo.${k8sNamespace}.svc.cluster.local/actuator/health
+curl demo.${k8sNamespace:-changeMe}.svc.cluster.local/actuator/health
 ```
 
 
@@ -210,7 +210,7 @@ kubectl describe ingress demo
 ```
 
 You should be able to access
-`http://${hostName}/${yourName}/actuator/health`
+`http://${hostName:-changeMe}/${yourName:-changeMe}/actuator/health`
 from public internet (i.e. using your browser or curl). The full url should look like `http://35.189.236.126.xip.io/mikk/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
@@ -250,7 +250,7 @@ In another console generate load to your service with following command
 bash \
   <(curl -s https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/local.sh) \
   deploy \
-  --target=http://${hostName}/${yourName}/actuator/health \
+  --target=http://${hostName:-changeMe}/${yourName:-changeMe}/actuator/health \
   --locust-file=https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/example/simple.py \
   --slaves=4 --mode=automatic \
   --users=100 --hatch-rate=30 --duration=120
@@ -312,7 +312,7 @@ Log into running container...
 ```shell
 kubectl get pods
 # "log in" to the running container
-kubectl exec -it ${podname} -- /bin/sh
+kubectl exec -it ${podname:-changeMe} -- /bin/sh
 ```
 ... and check if conf was actually mounted as file by executing following commands:
 ```shell
