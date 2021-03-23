@@ -45,8 +45,9 @@ kubectl create clusterrolebinding cluster-admin-binding \
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
-3. Verify that the nginx-ingress-controller Deployment and Service are deployed to the GKE cluster:
+3. Verify that the nginx-ingress-controller Deployment and Service are deployed to the GKE cluster in ingress-nginx:
 ```shell
+kubectl config set-context $(kubectl config current-context) --namespace=ingress-nginx
 kubectl get deployment nginx-ingress-nginx-ingress
 kubectl get service nginx-ingress-nginx-ingress
 ```
