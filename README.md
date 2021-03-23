@@ -72,7 +72,7 @@ Lets generate an application that has health endpoint (needed for k8s).
 2. Choose these options
     1. Project: Gradle Project
     2. Language: Java
-    3. Spring Boot: 2.4.2
+    3. Spring Boot: 2.4.4
     4. Project metadata:
         1. defaults
         2. Java: 11
@@ -87,11 +87,11 @@ Lets generate an application that has health endpoint (needed for k8s).
 
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
-1. Copy Dockerfile to the root of the java application
+1. Copy [Dockerfile](Dockerfile) to the root of the java application
 2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_${k8sNamespace}`
 3. Build it ```docker build --tag ${demoAppName}:latest .```
 4. Run it locally in the foreground: ```docker run --name ${demoAppName} --rm -p 8080:8080 ${demoAppName}:latest```
-5. Open browser and check the health endpoint responds at ```http://localhost:8080/actuator/health```
+5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
 6. Tag the docker image ```docker tag ${demoAppName}:latest eu.gcr.io/${gCloudProject}/${demoAppName}:1```
 7. Push the docker image to docker repository ```docker push eu.gcr.io/${gCloudProject}/${demoAppName}:1```
 
