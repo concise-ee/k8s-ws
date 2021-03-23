@@ -62,7 +62,7 @@ Lets generate an application that has health endpoint (needed for k8s).
     4. Project metadata:
         1. defaults
         2. Java: 11
-3. Dependecies -> Add dependencies:
+3. Dependencies -> Add dependencies:
      1. Spring Web
      2. Spring Boot Actuator
 4. Generate (download)
@@ -76,7 +76,7 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 1. Copy Dockerfile to the root of the java application
 2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_${k8sNamespace}`
 3. Build it ```docker build --tag ${demoAppName}:latest .```
-4. Run it locally in foreground: ```docker run --name ${demoAppName} --rm -p 8080:8080 ${demoAppName}:latest```
+4. Run it locally in the foreground: ```docker run --name ${demoAppName} --rm -p 8080:8080 ${demoAppName}:latest```
 5. Open browser and check the health endpoint responds at ```http://localhost:8080/actuator/health```
 6. Tag the docker image ```docker tag ${demoAppName}:latest eu.gcr.io/${gCloudProject}/${demoAppName}:1```
 7. Push the docker image to docker repository ```docker push eu.gcr.io/${gCloudProject}/${demoAppName}:1```
@@ -84,7 +84,7 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 
 ## Step 3: Create deployment
 
-Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update stragegy.
+Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
 
 Configure k8s context and namespace to be used for following commands
 (to avoid passing `--context` and `--namespace` with each following command)
@@ -149,7 +149,7 @@ kubectl get pods
 
 ## Step 4: Create service
 
-Let's create a sevice, so all our healthy application pods would be accessible from same (non-public) endpoint of the service.
+Let's create a service, so all our healthy application pods would be accessible from same (non-public) endpoint of the service.
 
 ```shell
 kubectl apply -f service.yaml
@@ -194,7 +194,7 @@ curl demo.${k8sNamespace}.svc.cluster.local/actuator/health
 
 ## Step 5: Create ingress
 
-Let's make the service accessible from public web (via IP-address/hostname).
+Let's make the service accessible from the public web (via IP-address/hostname).
 
 Replace the public path name in `ingress.yaml` from `${yourName}` to *your name*.
 
