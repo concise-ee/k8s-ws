@@ -7,14 +7,14 @@ Let's get ready for the workshop, so everyone would be prepared.
 ### Install required software
 Please install these:
 * docker (https://docs.docker.com/install/)
+* Windows users:
+    * install WSL https://docs.microsoft.com/en-us/windows/wsl/install-win10
+    * install some linux distro via WLS, for example Ubuntu (and use its command-line)
+    * if `docker ps` fails, open "Docker Desktop" GUI in Windows -> Settings -> Resources -> WSL INTEGRATION -> "Enable integration with my default WSL distro"
 * gcloud SDK (https://cloud.google.com/sdk/install)
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.16
 * Linux users:
     * Verify that you can use docker without sudo (https://docs.docker.com/engine/install/linux-postinstall/) 
-* Windows users:
-    * install WSL https://docs.microsoft.com/en-us/windows/wsl/install-win10
-    * install some linux distro via WLS, for example ubuntu (and use its command-line)
-    * if `docker ps` fails, open "Docker Desktop" GUI in Windows -> Settings -> Resources -> WSL INTEGRATION -> "Enable integration with my default WSL distro"
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 Open the terminal, define some variables:
