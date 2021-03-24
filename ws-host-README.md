@@ -48,9 +48,11 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 3. Verify that the nginx-ingress-controller Deployment and Service are deployed to the GKE cluster in ingress-nginx:
 ```shell
-kubectl config set-context $(kubectl config current-context) --namespace=ingress-nginx
-kubectl get deployment nginx-ingress-nginx-ingress
-kubectl get service nginx-ingress-nginx-ingress
+watch "kubectl get deployments,services --namespace ingress-nginx"
 ```
 
-4. Replace the ip from this ingress controller in `README.md` and `ingress.yaml`
+4. Replace the ip from this ingress controller
+```shell
+kubectl describe --namespace ingress-nginx service ingress-nginx-controller | grep Ingress 
+```
+in `README.md` and `ingress.yaml`
