@@ -230,6 +230,10 @@ Replace the public path name in [ingress.yaml](ingress.yaml) from `${yourName}` 
 ```shell
 kubectl apply -f ingress.yaml
 ```
+> This ingress configuration for our service gets read by Ingress Controller
+(that uses Nginx server with this specific ingress setup).
+Ingress Controller has Nginx routing configuration, 
+which is combined from ingress configurations (with rules for rewriting paths) of different services.
 
 You should be able to see host address using either of following commands:
 ```shell
