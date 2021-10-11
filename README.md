@@ -26,7 +26,7 @@ Please install these:
       `tar -zxf google-cloud-sdk-332.0.0-linux-x86_64.tar.gz`
       * run the shell installation process with
       `./google-cloud-sdk/install.sh`
-* kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.16
+* kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.20
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 Open the terminal, define some variables:
