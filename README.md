@@ -85,7 +85,7 @@ Lets generate an application that has health endpoint (needed for k8s).
 2. Choose these options
     1. Project: Gradle Project
     2. Language: Java
-    3. Spring Boot: 2.4.4
+    3. Spring Boot: 2.5.5
     4. Project metadata:
         1. defaults
         2. Java: 11
@@ -107,8 +107,10 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
 6. Tag the docker image ```docker tag ${demoAppName}:latest eu.gcr.io/${gCloudProject}/${demoAppName}:1```
 7. Push the docker image to docker repository ```docker push eu.gcr.io/${gCloudProject}/${demoAppName}:1```
-
-
+8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
+   This means that your application will crash once you apply the deployment. There are now two options for you:
+    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/${gCloudProject}/${demoAppName}:2 .```
+    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_mikk:1` 
 ## Step 3: Create deployment
 
 Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
@@ -244,7 +246,7 @@ kubectl describe ingress demo
 
 You should be able to access
 `http://${hostName:-changeMe}/${yourName:-changeMe}/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://35.189.236.126.xip.io/mikk/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://34.76.10.169.nip.io/mikk/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://${hostName}/${yourName}/actuator/health"`
@@ -277,19 +279,13 @@ Watch what happens to pods and autoscaler:
 watch "kubectl top pods && kubectl get pods,horizontalpodautoscalers"
 ```
 
-In another console generate load to your service with following command
-(NB! replace `${hostName}` and `${yourName}` ):
-```shell
-bash \
-  <(curl -s https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/local.sh) \
-  deploy \
-  --target=http://${hostName:-changeMe}/${yourName:-changeMe}/actuator/health \
-  --locust-file=https://raw.githubusercontent.com/zalando-incubator/docker-locust/master/example/simple.py \
-  --slaves=4 --mode=automatic \
-  --users=100 --hatch-rate=30 --duration=120
-```
-soon you should see an increase in CPU usage
-and after about half minute you should see effects of autoscaler.
+In another console generate load to your service with following commands
+
+1. Create [loadtest python script](loadtest.py)
+2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
+3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.76.10.169.nip.io/mikk/actuator/health`
+
+Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
 ## Step 6: Create configmap
 

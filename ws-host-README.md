@@ -24,7 +24,7 @@ We used to create a GKE native ingress per namespace, but had to wait 5 minutes 
 to propagate. And had a quota limit of 5 per cluster (which we had to increase manually).
 Now, the workaround was to create one ingress controller (nginx) and use different host/path combinations for each of the applications.
 
-However, in order to not have to resolve DNS or modify hosts files, we are using magic domain ip-from-nginx.xip.io,
+However, in order to not have to resolve DNS or modify hosts files, we are using magic domain ip-from-nginx.nip.io,
 which always resolves to the subdomain ip address.
 
 However, now that everyone has the same domain (with nginx ip address as subdomain), we need to make the routing based on path,
