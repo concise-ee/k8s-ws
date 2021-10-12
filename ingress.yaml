@@ -13,7 +13,7 @@ spec:
     - host: 34.76.10.169.nip.io
       http:
         paths:
-          - path: /${yourName}/(.*)
+          - path: /yourName/(.*)
             backend:
               serviceName: demo
               servicePort: http
