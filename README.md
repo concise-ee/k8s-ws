@@ -32,7 +32,7 @@ Please install these:
 Open the terminal, define some variables:
 ```shell
 k8sNamespace=your-name
-k8sCluster=k8s-ws-10
+k8sCluster=k8s-ws-10-330115
 gCloudProject=k8s-ws-10-330115
 ```
 and run following lines one by one:
@@ -41,7 +41,7 @@ and run following lines one by one:
 gcloud auth login
 
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials ${k8sCluster} --zone europe-west1 --project ${gCloudProject}
+gcloud container clusters get-credentials ${k8sCluster} --zone europe-west1-b --project ${gCloudProject}
 
 # register gcloud as a Docker credential helper (~/.docker/config.json)
 gcloud components install docker-credential-gcr
