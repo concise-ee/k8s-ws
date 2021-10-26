@@ -29,19 +29,21 @@ Please install these:
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.20
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
-Open the terminal, define some variables:
+
+For the following commands, Always replace `[[variable here]]` with a valid variable 
+
+We will be making a k8s namespace with your name e.g
 ```shell
-k8sNamespace=your-name
-k8sCluster=k8s-ws-10-330115
-gCloudProject=k8s-ws-10-330115
+k8sNamespace=aksel-allas
 ```
-and run following lines one by one:
+
+Open the terminal and run following lines one by one:
 ```shell
 # after following command browser will be opened, where you should log into google cloud with Concise email to authenticate `gcloud` CLI
 gcloud auth login
 
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials ${k8sCluster} --zone europe-west1-b --project ${gCloudProject}
+gcloud container clusters get-credentials [[k8s-ws-11]] --zone europe-west1-b --project [[k8s-ws-11]]
 
 # register gcloud as a Docker credential helper (~/.docker/config.json)
 gcloud components install docker-credential-gcr
@@ -54,10 +56,10 @@ kubectl version
 kubectl get nodes
 
 # create your private namespace inside k8s-ws-8 cluster (isolates your stuff from other participants)
-kubectl create namespace ${k8sNamespace}
+kubectl create namespace [[aksel-allas]]
 
 # Configure your namespace as default
-kubectl config set-context $(kubectl config current-context) --namespace=${k8sNamespace}
+kubectl config set-context $(kubectl config current-context) --namespace=[[aksel-allas]]
 ```
 
 ### Verify configuration
@@ -68,13 +70,6 @@ docker run hello-world
 If it doesn't work without sudo, follow 
 [Docker Post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
 to allow non-privileged users to run Docker commands.
-
-Check that you’ve initialized variables in the terminal tab you are working:
-```sh
-echo "k8sNamespace=$k8sNamespace\ngCloudProject=$gCloudProject"
-```
-or don't forget to replace them in commands bellow.
-
 
 ## Step 1: Create java application
 
@@ -101,16 +96,16 @@ Lets generate an application that has health endpoint (needed for k8s).
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
 1. Copy [Dockerfile](Dockerfile) to the root of the java application
-2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_${k8sNamespace}`
-3. Build it ```docker build --tag ${demoAppName}:latest .```
-4. Run it locally in the foreground: ```docker run --name ${demoAppName} --rm -p 8080:8080 ${demoAppName}:latest```
+2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_[[aksel-allas]]`
+3. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
+4. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-6. Tag the docker image ```docker tag ${demoAppName}:latest eu.gcr.io/${gCloudProject}/${demoAppName}:1```
-7. Push the docker image to docker repository ```docker push eu.gcr.io/${gCloudProject}/${demoAppName}:1```
+6. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/[[k8s-ws-11]]/[[demo-app_aksel-allas]]:1```
+7. Push the docker image to docker repository ```docker push eu.gcr.io/[[k8s-ws-11]]/[[demo-app_aksel-allas]]:1```
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
-    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/${gCloudProject}/${demoAppName}:2 .```
-    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_mikk:1` 
+    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/[[k8s-ws-11]]/[[demo-app_aksel-allas]]:2 .```
+    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_aksel-allas:1` 
 ## Step 3: Create deployment
 
 Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
@@ -122,13 +117,13 @@ Configure k8s context and namespace to be used for following commands
 kubectl get namespaces
 
 # Set kubectl against certain namespace (default ns is the default, but we want to deploy to your own ns)
-kubectl config set-context $(kubectl config current-context) --namespace=${k8sNamespace}
+kubectl config set-context $(kubectl config current-context) --namespace=[[aksel-allas]]
 
 # see all contexts and which of them is currently selected and what namespace is currently selected:
 kubectl config get-contexts
 ```
 > You should see exactly one context when executing following command to check that your namespace is configured for current context:
-`kubectl config get-contexts | grep "k8s-ws-" | grep "*" | grep ${k8sNamespace}`
+`kubectl config get-contexts | grep "k8s-ws-" | grep "*" | grep [[aksel-allas]]`
 
 See the current state of k8s resources:
 ```shell
@@ -151,16 +146,16 @@ See if deployment created pod (hopefully in ContainerCreating and soon in Runnin
 kubectl get pods
 
 # Investigate events (specially if pod isn't in running status)
-kubectl describe pod ${podname:-changeMe}
+kubectl describe pod [[podname]]
 
 # Investigate pod logs
-kubectl logs ${podname:-changeMe}
+kubectl logs [[podname]]
 ```
 
 If you have managed to get pod into "Running" state, experiment with deleting:
 ```shell
 # try deleting pod...
-kubectl delete pod ${podname:-changeMe}
+kubectl delete pod [[podname]]
 
 # ... and see what happened
 kubectl get pods
@@ -201,7 +196,7 @@ kubectl get namespaces
 Log into one container...
 ```shell
 # "log in" to the running container
-kubectl exec -it ${podname:-changeMe} -- /bin/sh
+kubectl exec -it [[podname]] -- /bin/sh
 ```
 ... and execute following commands from there:
 ```shell
@@ -210,16 +205,16 @@ curl localhost:8080/actuator/health
 
 # How service is accessing your pod, note the port of 8080
 # (theoretical, usually you don't need the pod ip at all)
-curl ${somePodip:-changeMe}:8080/actuator/health
+curl [[somePodip]]:8080/actuator/health
 
 # How to access your java app via service ip (not via DNS)
-curl ${svc-cluster-ip:-changeMe}/actuator/health
+curl [[svc-cluster-ip:-changeMe]]/actuator/health
 
 # How to access a service in your own namespace (DNS)
 curl demo/actuator/health
 
 # How to access a service in any namespace (DNS)
-curl demo.${k8sNamespace:-changeMe}.svc.cluster.local/actuator/health
+curl demo.[[aksel-allas]].svc.cluster.local/actuator/health
 ```
 
 
@@ -245,11 +240,11 @@ kubectl describe ingress demo
 ```
 
 You should be able to access
-`http://${hostName:-changeMe}/${yourName:-changeMe}/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://35.195.167.152.nip.io/mikk/actuator/health`
+`http://[[hostName]]/[[aksel-allas]]/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://35.195.167.152.nip.io/aksel-allas/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
-> `watch "kubectl get ingress && kubectl describe ingress demo && curl http://${hostName}/${yourName}/actuator/health"`
+> `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
 
 
 ## Step 6: Create autoscaler
@@ -283,7 +278,7 @@ In another console generate load to your service with following commands
 
 1. Create [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
-3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://35.195.167.152.nip.io/mikk/actuator/health`
+3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://35.195.167.152.nip.io/aksel-allas/actuator/health`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
@@ -341,7 +336,7 @@ Log into running container...
 ```shell
 kubectl get pods
 # "log in" to the running container
-kubectl exec -it ${podname:-changeMe} -- /bin/sh
+kubectl exec -it [[podname]] -- /bin/sh
 ```
 ... and check if conf was actually mounted as file by executing following commands:
 ```shell
