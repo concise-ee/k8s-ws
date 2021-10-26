@@ -246,7 +246,7 @@ kubectl describe ingress demo
 
 You should be able to access
 `http://${hostName:-changeMe}/${yourName:-changeMe}/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://34.76.10.169.nip.io/mikk/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://34.76.153.89.nip.io/mikk/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://${hostName}/${yourName}/actuator/health"`
