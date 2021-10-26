@@ -252,7 +252,7 @@ from public internet (i.e. using your browser or curl). The full url should look
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://${hostName}/${yourName}/actuator/health"`
 
 
-## Step 5: Create autoscaler
+## Step 6: Create autoscaler
 
 Let's make our service scale horizontally based on actual usage.
 
@@ -287,7 +287,7 @@ In another console generate load to your service with following commands
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
-## Step 6: Create configmap
+## Step 7: Create configmap
 
 Let's attach configmap as file to our containers.
 > When creating deployment we provided some configuration values via environment variables.
