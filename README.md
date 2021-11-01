@@ -33,7 +33,7 @@ Please install these:
 
 We will be making a k8s namespace with your name e.g
 ```shell
-k8sNamespace=aksel-allas
+k8sNamespace=[[aksel-allas]]
 ```
 
 Open the terminal and run following lines one by one:
