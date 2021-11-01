@@ -42,7 +42,7 @@ Open the terminal and run following lines one by one:
 gcloud auth login
 
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials [[k8s-ws-11]] --zone europe-west1-b --project [[k8s-ws-11]]
+gcloud container clusters get-credentials k8s-ws-11 --zone europe-west1-b --project k8s-ws-11
 
 # register gcloud as a Docker credential helper (~/.docker/config.json)
 gcloud components install docker-credential-gcr
@@ -99,11 +99,11 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 3. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
 4. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-6. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/[[k8s-ws-11]]/[[demo-app_aksel-allas]]:1```
-7. Push the docker image to docker repository ```docker push eu.gcr.io/[[k8s-ws-11]]/[[demo-app_aksel-allas]]:1```
+6. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
+7. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
-    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/[[k8s-ws-11]]/[[demo-app_aksel-allas]]:2 .```
+    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_aksel-allas:1` 
 ## Step 3: Create deployment
 
