@@ -30,7 +30,8 @@ Please install these:
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 
-For the following commands, Always replace `[[variable here]]` with a valid variable 
+#### For the following commands:
+#### Always replace `[[variable here]]` with a valid variable 
 
 We will be making a k8s namespace with your name e.g
 ```shell
