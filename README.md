@@ -29,9 +29,7 @@ Please install these:
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.20
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
-
-#### For the following commands:
-#### Always replace `[[variable here]]` with a valid variable 
+### NB!! Always replace `[[variable here]]` with a valid variable 
 
 We will be making a k8s namespace with your name e.g
 ```shell
