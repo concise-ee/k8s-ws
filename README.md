@@ -95,13 +95,12 @@ Lets generate an application that has health endpoint (needed for k8s).
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
 1. Copy [Dockerfile](Dockerfile) to the root of the java application
-2. Choose a unique docker tag (name) for your app, for example: `demoAppName=demo-app_[[aksel-allas]]`
-3. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
-4. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
-5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-6. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
-7. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
-8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
+2. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
+3. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
+4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
+5. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
+6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
+7. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
     1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_aksel-allas:1` 
