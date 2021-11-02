@@ -100,7 +100,8 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
 5. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
 6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:1```
-7. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
+   1. If you have problems, run `gcloud auth configure-docker`
+8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
     1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-11/[[demo-app_aksel-allas]]:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_aksel-allas:1` 
