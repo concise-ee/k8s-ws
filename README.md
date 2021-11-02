@@ -250,7 +250,7 @@ from public internet (i.e. using your browser or curl). The full url should look
 
 Let's make our service scale horizontally based on actual usage.
 
-Autoscaler works on comparing actual resource usage
+[Autoscaler](autoscaler.yaml) works on comparing actual resource usage
 (see `kubectl top pods`)
 to requested resources (see deployment resources.requests).
 
