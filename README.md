@@ -240,7 +240,7 @@ kubectl describe ingress demo
 
 You should be able to access
 `http://[[hostName]]/[[aksel-allas]]/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://35.241.253.112.nip.io/aksel-allas/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://104.199.94.225.nip.io/aksel-allas/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
@@ -277,7 +277,7 @@ In another console generate load to your service with following commands
 
 1. Create [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
-3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://35.241.253.112.nip.io/aksel-allas/actuator/health`
+3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://104.199.94.225.nip.io/aksel-allas/actuator/health`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
