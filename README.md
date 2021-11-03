@@ -135,7 +135,7 @@ kubectl get pods
 
 Create [deployment](deployment.yaml) (uploads manifest from given file to kubernetes)
 ```shell
-# NB! you probably want to replace image reference with your own, but you could try with default as well
+# NB! need to change the image reference to your own image
 kubectl apply -f deployment.yaml
 ```
 
