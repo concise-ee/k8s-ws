@@ -164,6 +164,8 @@ Try adding more pods of the same deployment:
 ```shell
 # open deployment manifest for in-line editing (note this doesn't change your deployment.yaml)
 kubectl edit deployment demo
+# or edit with nano
+KUBE_EDITOR="nano" kubectl edit deployment demo
 
 #change `replicas: 2`, save and quit
 
