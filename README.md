@@ -209,7 +209,7 @@ curl localhost:8080/actuator/health
 curl [[somePodip]]:8080/actuator/health
 
 # How to access your java app via service ip (not via DNS)
-curl [[svc-cluster-ip:-changeMe]]/actuator/health
+curl [[svc-cluster-ip]]/actuator/health
 
 # How to access a service in your own namespace (DNS)
 curl demo/actuator/health
