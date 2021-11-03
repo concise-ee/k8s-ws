@@ -94,7 +94,7 @@ Lets generate an application that has health endpoint (needed for k8s).
 
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
-1. Copy [Dockerfile](Dockerfile) to the root of the java application
+1. Copy [Dockerfile](Dockerfile) to the root folder of the java application (So dockerfile and unzipped java app is in the same folder)
 2. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
 3. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
 4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
