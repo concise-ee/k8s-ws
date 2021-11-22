@@ -31,18 +31,13 @@ Please install these:
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 ### NB!! Always replace `[[variable here]]` with a valid variable 
 
-We will be making a k8s namespace with your name e.g
-```shell
-k8sNamespace=[[aksel-allas]]
-```
-
 Open the terminal and run following lines one by one:
 ```shell
 # after following command browser will be opened, where you should log into google cloud with Concise email to authenticate `gcloud` CLI
 gcloud auth login
 
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials k8s-ws-12 --zone europe-west1-b --project k8s-ws-12
+gcloud container clusters get-credentials k8s-ws-13 --zone europe-west1-b --project k8s-ws-13
 
 # register gcloud as a Docker credential helper (~/.docker/config.json)
 gcloud components install docker-credential-gcr
@@ -98,12 +93,12 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 2. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
 3. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
 4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-5. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-12/[[demo-app_aksel-allas]]:1```
-6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-12/[[demo-app_aksel-allas]]:1```
+5. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-13/[[demo-app_aksel-allas]]:1```
+6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-13/[[demo-app_aksel-allas]]:1```
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
-    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-12/[[demo-app_aksel-allas]]:2 .```
+    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-13/[[demo-app_aksel-allas]]:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_aksel-allas:1` 
 ## Step 3: Create deployment
 
@@ -240,7 +235,7 @@ kubectl describe ingress demo
 
 You should be able to access
 `http://[[hostName]]/[[aksel-allas]]/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://104.199.94.225.nip.io/aksel-allas/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://34.140.220.76.nip.io/aksel-allas/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
@@ -277,7 +272,7 @@ In another console generate load to your service with following commands
 
 1. Create [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
-3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://104.199.94.225.nip.io/aksel-allas/actuator/health`
+3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.140.220.76.nip.io/aksel-allas/actuator/health`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
