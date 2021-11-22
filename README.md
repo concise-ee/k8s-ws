@@ -89,7 +89,7 @@ Lets generate an application that has health endpoint (needed for k8s).
 
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
-1. Copy [Dockerfile](Dockerfile) to the root of the java application
+1. Copy [Dockerfile](Dockerfile) to the root folder of the java application (So dockerfile and unzipped java app is in the same folder)
 2. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
 3. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
 4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
@@ -130,7 +130,7 @@ kubectl get pods
 
 Create [deployment](deployment.yaml) (uploads manifest from given file to kubernetes)
 ```shell
-# NB! you probably want to replace image reference with your own, but you could try with default as well
+# NB! need to change the image reference to your own image
 kubectl apply -f deployment.yaml
 ```
 
@@ -159,6 +159,8 @@ Try adding more pods of the same deployment:
 ```shell
 # open deployment manifest for in-line editing (note this doesn't change your deployment.yaml)
 kubectl edit deployment demo
+# or edit with nano
+KUBE_EDITOR="nano" kubectl edit deployment demo
 
 #change `replicas: 2`, save and quit
 
@@ -202,7 +204,7 @@ curl localhost:8080/actuator/health
 curl [[somePodip]]:8080/actuator/health
 
 # How to access your java app via service ip (not via DNS)
-curl [[svc-cluster-ip:-changeMe]]/actuator/health
+curl [[svc-cluster-ip]]/actuator/health
 
 # How to access a service in your own namespace (DNS)
 curl demo/actuator/health
