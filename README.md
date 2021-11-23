@@ -130,7 +130,7 @@ kubectl get pods
 
 Create [deployment](deployment.yaml) (uploads manifest from given file to kubernetes)
 ```shell
-# NB! need to change the image reference to your own image
+# NB! need to change the image reference from [[aksel-allas]] to your own image
 kubectl apply -f deployment.yaml
 ```
 
