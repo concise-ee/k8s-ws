@@ -272,7 +272,7 @@ watch "kubectl top pods && kubectl get pods,horizontalpodautoscalers"
 
 In another console generate load to your service with following commands
 
-1. Create [loadtest python script](loadtest.py)
+1. Make sure you have copied [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
 3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.140.220.76.nip.io/aksel-allas/actuator/health`
 
