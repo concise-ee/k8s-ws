@@ -37,7 +37,7 @@ Open the terminal and run following lines one by one:
 gcloud auth login
 
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials k8s-ws-13 --zone europe-west1-b --project k8s-ws-13
+gcloud container clusters get-credentials k8s-ws-15 --zone europe-west1-b --project k8s-ws-15
 
 # register gcloud as a Docker credential helper (~/.docker/config.json)
 gcloud components install docker-credential-gcr
@@ -237,7 +237,7 @@ kubectl describe ingress demo
 
 You should be able to access
 `http://[[hostName]]/[[aksel-allas]]/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://34.140.220.76.nip.io/aksel-allas/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://34.77.244.183.nip.io/aksel-allas/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
@@ -274,7 +274,7 @@ In another console generate load to your service with following commands
 
 1. Make sure you have copied [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
-3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.140.220.76.nip.io/aksel-allas/actuator/health`
+3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.77.244.183.nip.io/aksel-allas/actuator/health`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
