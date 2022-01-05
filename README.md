@@ -29,7 +29,7 @@ Please install these:
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.20
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
-### NB!! Always replace `[[variable here]]` with a valid variable 
+### NB!! Always replace `[[variable here]]` with a valid variable and `my-name` with your actual name
 
 Open the terminal and run following lines one by one:
 ```shell
@@ -93,13 +93,13 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 2. Build it ```docker build --tag my-name:latest .```
 3. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
 4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-5. Tag the docker image ```docker tag [[demo-app_my-name]]:latest eu.gcr.io/k8s-ws-15/my-name:1```
+5. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-15/my-name:1```
 6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-15/my-name:1```
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
     1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-15/my-name:2 .```
-    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_my-name:1` 
+    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
 ## Step 3: Create deployment
 
 Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
