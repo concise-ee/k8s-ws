@@ -50,10 +50,10 @@ kubectl version
 kubectl get nodes
 
 # create your private namespace inside k8s-ws-8 cluster (isolates your stuff from other participants)
-kubectl create namespace [[aksel-allas]]
+kubectl create namespace my-name
 
 # Configure your namespace as default
-kubectl config set-context $(kubectl config current-context) --namespace=[[aksel-allas]]
+kubectl config set-context $(kubectl config current-context) --namespace=my-name
 ```
 
 ### Verify configuration
