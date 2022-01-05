@@ -39,7 +39,7 @@ spec:
               value: -Xmx256m -Xms256m
           ports:
             - containerPort: 8080
-          # used to check if application is healthy
+          # used to check if application is healthy, if it fails the pod gets killed and restarted
           livenessProbe:
             httpGet:
               path: /actuator/health
@@ -47,7 +47,7 @@ spec:
             periodSeconds: 30
             timeoutSeconds: 2
             failureThreshold: 5
-          # used to check if it is ready (i.e. could route traffic)
+          # used to check if it is ready (i.e. could route traffic), if it fails, traffic is not routed to this pod
           readinessProbe:
             httpGet:
               path: /actuator/health
