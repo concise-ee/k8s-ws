@@ -93,13 +93,13 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 2. Build it ```docker build --tag my-name:latest .```
 3. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
 4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-5. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-15/my-name:1```
+5. Tag the docker image ```docker tag [[demo-app_my-name]]:latest eu.gcr.io/k8s-ws-15/my-name:1```
 6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-15/my-name:1```
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
     1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-15/my-name:2 .```
-    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_aksel-allas:1` 
+    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_my-name:1` 
 ## Step 3: Create deployment
 
 Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
@@ -129,7 +129,7 @@ kubectl get pods
 
 Create [deployment](deployment.yaml) (uploads manifest from given file to kubernetes)
 ```shell
-# NB! need to change the image reference from [[aksel-allas]] to your own image
+# NB! need to change the image reference from my-name to your own image
 kubectl apply -f deployment.yaml
 ```
 
@@ -209,7 +209,7 @@ curl [[svc-cluster-ip]]/actuator/health
 curl demo/actuator/health
 
 # How to access a service in any namespace (DNS)
-curl demo.[[aksel-allas]].svc.cluster.local/actuator/health
+curl demo.my-name.svc.cluster.local/actuator/health
 ```
 
 
@@ -235,8 +235,8 @@ kubectl describe ingress demo
 ```
 
 You should be able to access
-`http://[[hostName]]/[[aksel-allas]]/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://34.77.244.183.nip.io/aksel-allas/actuator/health`
+`http://[[hostName]]/my-name/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://34.77.244.183.nip.io/my-name/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
@@ -273,7 +273,7 @@ In another console generate load to your service with following commands
 
 1. Make sure you have copied [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
-3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.77.244.183.nip.io/aksel-allas/actuator/health`
+3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.77.244.183.nip.io/my-name/actuator/health`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
