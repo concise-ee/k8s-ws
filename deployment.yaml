@@ -44,9 +44,21 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 100
+            periodSeconds: 30
+            timeoutSeconds: 2
+            failureThreshold: 5
           # used to check if it is ready (i.e. could route traffic)
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
+            periodSeconds: 15
+            timeoutSeconds: 2
+            failureThreshold: 2
+          # used to check if it is up for the very first time. liveness will take over after this succeeds
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            periodSeconds: 2
+            failureThreshold: 60
