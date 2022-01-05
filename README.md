@@ -90,15 +90,15 @@ Lets generate an application that has health endpoint (needed for k8s).
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
 1. Copy [Dockerfile](Dockerfile) to the root folder of the java application (So dockerfile and unzipped java app is in the same folder)
-2. Build it ```docker build --tag [[demo-app_aksel-allas]]:latest .```
-3. Run it locally in the foreground: ```docker run --name [[demo-app_aksel-allas]] --rm -p 8080:8080 [[demo-app_aksel-allas]]:latest```
+2. Build it ```docker build --tag my-name:latest .```
+3. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
 4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-5. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-13/[[demo-app_aksel-allas]]:1```
-6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-13/[[demo-app_aksel-allas]]:1```
+5. Tag the docker image ```docker tag [[demo-app_aksel-allas]]:latest eu.gcr.io/k8s-ws-15/my-name:1```
+6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-15/my-name:1```
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
-    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-13/[[demo-app_aksel-allas]]:2 .```
+    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-15/my-name:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `demo-app_aksel-allas:1` 
 ## Step 3: Create deployment
 
@@ -111,13 +111,12 @@ Configure k8s context and namespace to be used for following commands
 kubectl get namespaces
 
 # Set kubectl against certain namespace (default ns is the default, but we want to deploy to your own ns)
-kubectl config set-context $(kubectl config current-context) --namespace=[[aksel-allas]]
-
+kubectl config set-context $(kubectl config current-context) --namespace=my-name
 # see all contexts and which of them is currently selected and what namespace is currently selected:
 kubectl config get-contexts
 ```
 > You should see exactly one context when executing following command to check that your namespace is configured for current context:
-`kubectl config get-contexts | grep "k8s-ws-" | grep "*" | grep [[aksel-allas]]`
+`kubectl config get-contexts | grep "k8s-ws-" | grep "*" | grep my-name`
 
 See the current state of k8s resources:
 ```shell
