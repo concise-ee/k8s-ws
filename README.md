@@ -90,11 +90,12 @@ Lets generate an application that has health endpoint (needed for k8s).
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
 1. Copy [Dockerfile](Dockerfile) to the root folder of the java application (So dockerfile and unzipped java app is in the same folder)
-2. Build it ```docker build --tag my-name:latest .```
-3. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
-4. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-5. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-14/my-name:1```
-6. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-14/my-name:1```
+   1. If you are using WSL you might need to run `export DOCKER_HOST=unix:///var/run/docker.sock`
+3. Build it ```docker build --tag my-name:latest .```
+4. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
+5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
+6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-14/my-name:1```
+7. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-14/my-name:1```
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
