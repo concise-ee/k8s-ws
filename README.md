@@ -74,7 +74,7 @@ Lets generate an application that has health endpoint (needed for k8s).
 2. Choose these options
     1. Project: Gradle Project
     2. Language: Java
-    3. Spring Boot: 2.5.6
+    3. Spring Boot: 2.6.2
     4. Project metadata:
         1. defaults
         2. Java: 11
