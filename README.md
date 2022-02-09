@@ -29,7 +29,6 @@ Please install these:
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at least version 1.20
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
-### NB!! Always replace `[[variable here]]` with a valid variable and `my-name` with your actual name
 
 Open the terminal and run following lines one by one:
 ```shell
@@ -37,7 +36,7 @@ Open the terminal and run following lines one by one:
 gcloud auth login
 
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials k8s-ws-14 --zone europe-west1-b --project k8s-ws-14
+gcloud container clusters get-credentials k8s-ws-16 --zone europe-west1-b --project k8s-ws-16
 
 # register gcloud as a Docker credential helper (~/.docker/config.json)
 gcloud components install docker-credential-gcr
@@ -94,12 +93,12 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 3. Build it ```docker build --tag my-name:latest .```
 4. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-14/my-name:1```
-7. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-14/my-name:1```
+6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-16/my-name:1```
+7. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-16/my-name:1```
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment. There are now two options for you:
-    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-14/my-name:2 .```
+    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-16/my-name:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
 ## Step 3: Create deployment
 
@@ -237,7 +236,7 @@ kubectl describe ingress demo
 
 You should be able to access
 `http://[[hostName]]/my-name/actuator/health`
-from public internet (i.e. using your browser or curl). The full url should look like `http://34.77.222.146.nip.io/my-name/actuator/health`
+from public internet (i.e. using your browser or curl). The full url should look like `http://34.140.36.164.nip.io/my-name/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
@@ -274,7 +273,7 @@ In another console generate load to your service with following commands
 
 1. Make sure you have copied [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
-3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.77.222.146.nip.io/my-name/actuator/health`
+3. Open browser `http://localhost:8089` and specify 100 users, 10 seconds and your public url in the host such as `http://34.140.36.164.nip.io/my-name/actuator/health`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 

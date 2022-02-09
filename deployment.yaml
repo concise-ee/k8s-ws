@@ -20,7 +20,7 @@ spec:
       containers:
         # container image is referenced from GCR (Google Container Registry)
         # make sure your tag (:1 or :2) is corect for the image you are downloading
-        - image: eu.gcr.io/k8s-ws-14/my-name:1
+        - image: eu.gcr.io/k8s-ws-16/my-name:1
           resources:
             # how much resources container is guaranteed to get
             requests:
@@ -44,21 +44,9 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8080
-            periodSeconds: 30
-            timeoutSeconds: 2
-            failureThreshold: 5
+            initialDelaySeconds: 100
           # used to check if it is ready (i.e. could route traffic), if it fails, traffic is not routed to this pod
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
-            periodSeconds: 15
-            timeoutSeconds: 2
-            failureThreshold: 2
-          # used to check if it is up for the very first time. liveness will take over after this succeeds
-          startupProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-            periodSeconds: 2
-            failureThreshold: 60
