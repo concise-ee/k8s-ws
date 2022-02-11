@@ -6,12 +6,15 @@ Stuff to do in order to prepare the workshop
 Use same name for Google Cloud project and k8s cluster, for example
 k8s-ws-${number of the workshop}
 
-### Create G-Cloud project
+### Create G-Cloud project k8s-ws-${number of the workshop}
+
+### Enable Kubernetes engine & billing
+This means that Mikk or someone else with Concise billing account needs to enable it.
 
 ### Create Kubernetes cluster
 cluster type: standard
 Location type: Zonal; zone: europe-west1-b
-NB! Set autoscaling for node-pool, min 1 node max 10
+NB! Set autoscaling for node-pool, min 1 node max 10 (Set node amount to 1)
 Wait about 5 minutes until cluster is created
 
 ### Add participants
