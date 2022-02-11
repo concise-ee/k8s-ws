@@ -59,3 +59,6 @@ watch "kubectl get deployments,services --namespace ingress-nginx"
 kubectl describe --namespace ingress-nginx service ingress-nginx-controller | grep Ingress 
 ```
 in `README.md` and `ingress.yaml`
+
+### Right after finishing workshop, delete the k8s cluster and project
+Otherwise cluster running for a month costs ~50 eur.
