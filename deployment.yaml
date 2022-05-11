@@ -7,7 +7,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
+      maxSurge: 2
+      maxUnavailable: 25%
   selector:
     # defines how the Deployment finds which Pods to manage
     matchLabels:
@@ -45,6 +46,7 @@ spec:
               path: /actuator/health
               port: 8080
             initialDelaySeconds: 100
+            periodSeconds: 20
           # used to check if it is ready (i.e. could route traffic), if it fails, traffic is not routed to this pod
           readinessProbe:
             httpGet:
