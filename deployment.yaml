@@ -21,7 +21,7 @@ spec:
       containers:
         # container image is referenced from GCR (Google Container Registry)
         # make sure your tag (:1 or :2) is corect for the image you are downloading
-        - image: eu.gcr.io/k8s-ws-20/my-name:1
+        - image: eu.gcr.io/k8s-ws-21/my-name:1
           resources:
             # how much resources container is guaranteed to get
             requests:
