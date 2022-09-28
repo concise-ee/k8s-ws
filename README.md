@@ -214,6 +214,8 @@ kubectl get svc
 kubectl describe svc demo
 # Check the ip of your pod
 kubectl get pods -o wide
+# Check other namespaces (so you could later attempt to make requests from your deployment pod to another deployment in different namespace) 
+kubectl get namespaces
 ```
 
 Log into one container...
@@ -238,8 +240,8 @@ curl [[svc-cluster-ip]]/actuator/health
 # How to access a service in your own namespace (DNS)
 curl demo/actuator/health
 
-# How to access a service in any namespace (DNS)
-curl demo.my-name.svc.cluster.local/actuator/health
+# How to access a service in any namespace (DNS) - could try calling deployment from another namespace:
+curl demo.some-namespace.svc.cluster.local/actuator/health
 ```
 
 
