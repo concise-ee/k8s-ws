@@ -40,7 +40,13 @@ gcloud auth login
 # and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
 gcloud container clusters get-credentials k8s-ws-21 --zone europe-west1-b --project k8s-ws-21
 
+# Configure docker credentials
 # register gcloud as a Docker credential helper (~/.docker/config.json)
+
+# Option A
+gcloud auth configure-docker
+
+# Option B
 gcloud components install docker-credential-gcr
 docker-credential-gcr configure-docker
 
