@@ -219,6 +219,8 @@ Log into one container...
 ```shell
 # "log in" to the running container
 kubectl exec -it [[podname]] -- /bin/sh
+# check java version used in container
+java --version
 ```
 ... and execute following commands from there:
 ```shell
