@@ -61,7 +61,7 @@ docker-credential-gcr configure-docker
 
 ```shell
 # check that `kubectl` is properly installed (at least version 1.21)
-kubectl version
+kubectl version --output=yaml
 
 # get k8s nodes in the cluser to check that `kubectl` can communicate with the cluster
 kubectl get nodes
