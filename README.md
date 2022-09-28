@@ -125,6 +125,7 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
    This means that your application will crash once you apply the deployment.
+   Normally you would build and push compatible image in CI server, so there wouldn't be such issues with real projects.
    There are now two options for you:
     1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-21/my-name:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
