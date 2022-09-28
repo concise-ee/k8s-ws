@@ -127,7 +127,8 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
    This means that your application will crash once you apply the deployment.
    Normally you would build and push compatible image in CI server, so there wouldn't be such issues with real projects.
    There are now two options for you:
-    1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-21/my-name:2 .```
+    1. Try to build amd64 build locally (this should work with our demo application, but could fail with others):
+      ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-21/my-name:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
 ## Step 3: Create deployment
 
