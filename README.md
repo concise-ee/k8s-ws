@@ -35,21 +35,26 @@ Open the terminal and run following lines one by one:
 # after following command browser will be opened, 
 # where you should log into google cloud with Concise email to authenticate `gcloud` CLI
 gcloud auth login
+```
 
+```shell
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials 
 # and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
 gcloud container clusters get-credentials k8s-ws-21 --zone europe-west1-b --project k8s-ws-21
+```
 
-# Configure docker credentials
-# register gcloud as a Docker credential helper (~/.docker/config.json)
-
+Configure docker credentials,
+register gcloud as a Docker credential helper (~/.docker/config.json)
+```shell
 # Option A
 gcloud auth configure-docker
 
 # Option B
 gcloud components install docker-credential-gcr
 docker-credential-gcr configure-docker
+```
 
+```shell
 # check that `kubectl` is properly installed (at least version 1.21)
 kubectl version
 
@@ -105,7 +110,8 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 7. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-21/my-name:1```
    1. If you have problems, run `gcloud auth configure-docker`
 8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
-   This means that your application will crash once you apply the deployment. There are now two options for you:
+   This means that your application will crash once you apply the deployment.
+   There are now two options for you:
     1. Try to build amd64 build locally, but this often fails: ```docker buildx build --push --platform  linux/amd64 --tag eu.gcr.io/k8s-ws-21/my-name:2 .```
     2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
 ## Step 3: Create deployment
