@@ -66,11 +66,20 @@ kubectl version --output=yaml
 # get k8s nodes in the cluser to check that `kubectl` can communicate with the cluster
 kubectl get nodes
 
+# see existing namespaces
+kubectl get namespaces
+
 # create your private namespace inside k8s-ws-8 cluster (isolates your stuff from other participants)
 kubectl create namespace my-name
 
+# see list of contexts and configured default namespace for them (line with star shows active context)
+kubectl config get-contexts
+
 # Configure your namespace as default
 kubectl config set-context $(kubectl config current-context) --namespace=my-name
+
+# You should now see that default namespace is set for current context
+kubectl config get-contexts
 ```
 
 ### Verify configuration
