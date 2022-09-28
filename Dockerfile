@@ -3,9 +3,9 @@
 # Build-time image - builds application for next stage, everything else in this image is discarded
 FROM eclipse-temurin:11-jdk-focal AS build
 WORKDIR /app
-COPY src /app/src
 COPY build.gradle gradlew /app/
 COPY gradle /app/gradle
+COPY src /app/src
 RUN ./gradlew clean build bootJar
 RUN ls -l /app/build/libs
 
