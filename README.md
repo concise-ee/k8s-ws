@@ -213,8 +213,6 @@ kubectl get svc
 kubectl describe svc demo
 # Check the ip of your pod
 kubectl get pods -o wide
-# Check other namespaces
-kubectl get namespaces
 ```
 
 Log into one container...
