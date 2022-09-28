@@ -42,6 +42,11 @@ gcloud auth login
 # and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
 gcloud container clusters get-credentials k8s-ws-21 --zone europe-west1-b --project k8s-ws-21
 ```
+> If it fails, you need to install
+> [gke-gcloud-auth-plugin](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+> for example using following command:
+> `gcloud components install gke-gcloud-auth-plugin`
+
 
 Configure docker credentials,
 register gcloud as a Docker credential helper (~/.docker/config.json)
