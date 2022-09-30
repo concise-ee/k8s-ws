@@ -173,6 +173,9 @@ kubectl describe pod [[podname]]
 
 # Investigate pod logs
 kubectl logs [[podname]]
+
+# If pod already crashed then its possible to see logs from previous run by setting a flag
+kubectl logs --previous [[podname]]
 ```
 
 If you have managed to get pod into "Running" state, experiment with deleting:
