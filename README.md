@@ -116,20 +116,28 @@ Lets generate an application that has health endpoint (needed for k8s).
 Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
 
 1. Copy [Dockerfile](Dockerfile) to the root folder of the java application (So dockerfile and unzipped java app is in the same folder)
-   1. If you are using WSL you might need to run `export DOCKER_HOST=unix:///var/run/docker.sock`
+   1. If you are using WSL you might need to run`export DOCKER_HOST=unix:///var/run/docker.sock`
 3. Build it ```docker build --tag my-name:latest .```
 4. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
 6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-21/my-name:1```
-7. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-21/my-name:1```
+
+### Intel/AMD Users
+
+1. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-21/my-name:1```
    1. If you have problems, run `gcloud auth configure-docker`
-8. Mac M1 owners this is only for you: In previous step, you pushed arm64 build, but the k8s cluster is running on amd64 nodes. 
-   This means that your application will crash once you apply the deployment.
-   Normally you would build and push compatible image in CI server, so there wouldn't be such issues with real projects.
-   There are now two options for you:
-    1. Try to build amd64 build locally (this should work with our demo application, but could fail with others):
-      ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-21/my-name:2 .```
-    2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
+
+### Mac M1 Users
+
+In previous steps, you built arm64 image, but the k8s cluster is running on amd64 nodes. 
+This means that your application will crash once you apply the deployment.
+Normally you would build and push compatible image in CI server, so there wouldn't be such issues with real projects.
+
+There are now two options for you:
+1. Try to build amd64 image locally (this should work with our demo application, but could fail with others):
+  ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-21/my-name:2 .```
+2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
+
 ## Step 3: Create deployment
 
 Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
@@ -200,7 +208,6 @@ KUBE_EDITOR="nano" kubectl edit deployment demo
 kubectl get pods
 ```
 
-
 ## Step 4: Create service
 
 Let's create a [service](service.yaml), so all our healthy application pods would be accessible from same (non-public) endpoint of the service.
@@ -247,7 +254,6 @@ curl demo/actuator/health
 curl demo.some-namespace.svc.cluster.local/actuator/health
 ```
 
-
 ## Step 5: Create ingress
 
 Let's make the service accessible from the public web (via IP-address/hostname).
@@ -275,7 +281,6 @@ from public internet (i.e. using your browser or curl). The full url should look
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
-
 
 ## Step 6: Create autoscaler
 
