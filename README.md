@@ -311,25 +311,19 @@ Now back in the watch terminal you should soon see an increase in CPU usage and 
 
 ## Step 7: Create configmap
 
-Let's attach configmap as file to our containers.
+### Let's attach configmap as file to our containers.
 > When creating deployment we provided some configuration values via environment variables.
 > Using secrets would be another option (out of the scope for this WS).
 
-Create configuration source file for k8s configmap, for example `some.conf`:
-```properties
-test=1
-props=2
-```
-
 Use that configuration file to create configmap:
 ```shell
-kubectl create configmap demo --from-file=some.conf
+kubectl apply -f configmap.yaml
 ```
 
 Inspect configmaps:
 ```shell
 kubectl get configmaps
-kubectl describe configmap demo
+kubectl describe configmap demo-configmap-file
 ```
 
 Update your deployment.yaml with configMap mounted from volume:
@@ -343,10 +337,10 @@ Update your deployment.yaml with configMap mounted from volume:
 +      volumes:
 +        - name: conf
 +          configMap:
-+            name: demo
++            name: demo-configmap-file
 +            items:
-+              - key: some.conf
-+                path: some.conf
++              - key: some-config.yaml
++                path: some-config.yaml
 ```
 
 Apply changes in deployment:
@@ -368,5 +362,73 @@ kubectl exec -it [[podname]] -- /bin/sh
 ... and check if conf was actually mounted as file by executing following commands:
 ```shell
 # should see the same conf you created
-cat /conf/some.conf
+cat /conf/some-config.yaml
+```
+
+### Let's inject single environment variable from configmap
+Update your deployment.yaml and add envFrom instruction. 
+```diff
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: STAGING
+            - name: JAVA_OPTS
+              value: -Xmx256m -Xms256m
++            - name: DEMO_ENV_1
++              valueFrom:
++                configMapKeyRef:
++                  name: demo-configmap-env
++                  key: DEMO_ENV_1
+```
+
+Apply changes in deployment:
+```shell
+kubectl apply -f deployment.yaml
+```
+
+Log into running container...
+```shell
+kubectl get pods
+# "log in" to the running container
+kubectl exec -it [[podname]] -- /bin/sh
+```
+... and check if conf was actually mounted as file by executing following commands:
+```shell
+# should see the value defined in demo-configmap-env
+env | grep DEMO_ENV
+```
+
+### Let's inject all environment variables from configmap
+
+Update your deployment.yaml and add envFrom instruction. 
+```diff
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: STAGING
+            - name: JAVA_OPTS
+              value: -Xmx256m -Xms256m
+-            - name: DEMO_ENV_1
+-              valueFrom:
+-                configMapKeyRef:
+-                  name: demo-configmap-env
+-                  key: DEMO_ENV_1
++           envFrom:
++             - configMapRef:
++               name: demo-configmap-env
+```
+
+Apply changes in deployment:
+```shell
+kubectl apply -f deployment.yaml
+```
+
+Log into running container...
+```shell
+kubectl get pods
+# "log in" to the running container
+kubectl exec -it [[podname]] -- /bin/sh
+```
+... and check if conf was actually mounted as file by executing following commands:
+```shell
+# should see all the values defined in demo-configmap-env
+env | grep DEMO_ENV
 ```

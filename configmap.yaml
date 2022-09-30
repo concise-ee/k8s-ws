@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-configmap-file
+data:
+  some-config.yaml: |
+    key: abc
+    enabled: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-configmap-env
+data:
+  DEMO_ENV_1: demoEnv1Value 
+  DEMO_ENV_2: demoEnv2Value
