@@ -391,7 +391,7 @@ kubectl get pods
 # "log in" to the running container
 kubectl exec -it [[podname]] -- /bin/sh
 ```
-... and check if conf was actually mounted as file by executing following commands:
+... and check if variable was injected
 ```shell
 # should see the value defined in demo-configmap-env
 env | grep DEMO_ENV
@@ -427,7 +427,7 @@ kubectl get pods
 # "log in" to the running container
 kubectl exec -it [[podname]] -- /bin/sh
 ```
-... and check if conf was actually mounted as file by executing following commands:
+... and check if all variables were injected
 ```shell
 # should see all the values defined in demo-configmap-env
 env | grep DEMO_ENV
