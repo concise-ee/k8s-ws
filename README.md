@@ -419,8 +419,8 @@ Update your deployment.yaml and add envFrom instruction.
 -                configMapKeyRef:
 -                  name: demo-configmap-env
 -                  key: DEMO_ENV_1
-+           envFrom:
-+             - configMapRef:
++          envFrom:
++            - configMapRef:
 +               name: demo-configmap-env
 ```
 
