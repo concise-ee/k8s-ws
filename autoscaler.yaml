@@ -13,5 +13,4 @@ spec:
   - type: Resource
     resource:
       name: cpu
-      # uses requested resource in %
-      targetAverageUtilization: 100
+      targetAverageUtilization: 100 # exceeding this % of container `resources.requests.cpu` will trigger autoscaling after a while
