@@ -334,7 +334,9 @@ kubectl get configmaps
 kubectl describe configmap demo-configmap-file
 ```
 
-Update your deployment.yaml with configMap mounted from volume:
+Update your
+[deployment.yaml](deployment.yaml)
+with configMap mounted from volume:
 ```diff
              httpGet:
                path: /actuator/health
@@ -374,7 +376,9 @@ cat /conf/some-config.yaml
 ```
 
 ### Let's inject single environment variable from configmap
-Update your deployment.yaml and add envFrom instruction. 
+Update your
+[deployment.yaml](deployment.yaml)
+and add envFrom instruction. 
 ```diff
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -407,7 +411,9 @@ env | grep DEMO_ENV
 
 ### Let's inject all environment variables from configmap
 
-Update your deployment.yaml and add envFrom instruction. 
+Update your
+[deployment.yaml](deployment.yaml)
+and add envFrom instruction. 
 ```diff
           env:
             - name: SPRING_PROFILES_ACTIVE
