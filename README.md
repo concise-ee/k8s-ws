@@ -123,6 +123,11 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
 6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-22/my-name:1```
 
+## Step 3: Push the image to Container Registry
+
+Follow sub-steps bellow, after that you can see uploaded images via web interface:
+https://console.cloud.google.com/gcr/images/k8s-ws-22
+
 ### Intel/AMD Users
 
 1. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-22/my-name:1```
@@ -139,7 +144,7 @@ There are now two options for you:
   ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-22/my-name:2 .```
 2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
 
-## Step 3: Create deployment
+## Step 4: Create deployment
 
 Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
 
@@ -209,7 +214,7 @@ KUBE_EDITOR="nano" kubectl edit deployment demo
 kubectl get pods
 ```
 
-## Step 4: Create service
+## Step 5: Create service
 
 Let's create a [service](service.yaml), so all our healthy application pods would be accessible from same (non-public) endpoint of the service.
 
@@ -255,7 +260,7 @@ curl demo/actuator/health
 curl demo.some-namespace.svc.cluster.local/actuator/health
 ```
 
-## Step 5: Create ingress
+## Step 6: Create ingress
 
 Let's make the service accessible from the public web (via IP-address/hostname).
 
@@ -283,7 +288,7 @@ from public internet (i.e. using your browser or curl). The full url should look
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
 
-## Step 6: Create autoscaler
+## Step 7: Create autoscaler
 
 Let's make our service scale horizontally based on actual usage.
 
@@ -318,7 +323,7 @@ In another console generate load to your service with following commands
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
-## Step 7: Create configmap
+## Step 8: Create configmap
 
 ### Let's attach configmap as file to our containers.
 > When creating deployment we provided some configuration values via environment variables.
