@@ -204,8 +204,10 @@ kubectl get pods
 Try adding more pods of the same deployment:
 ```shell
 # open deployment manifest for in-line editing (note this doesn't change your deployment.yaml)
+# If you are familiar with `vi` text editor, you could use:
 kubectl edit deployment demo
 # or edit with nano
+# (that is easier to learn than vi)
 KUBE_EDITOR="nano" kubectl edit deployment demo
 
 #change `replicas: 2`, save and quit
