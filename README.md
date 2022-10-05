@@ -321,10 +321,14 @@ In another console generate load to your service with following commands
 
 1. Make sure you have copied [loadtest python script](loadtest.py)
 2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
-3. Open browser `http://localhost:8089` and specify
-   * Number of users: 25
-   * Spawn rate (users started/second): 10
-   * Host: public url to your service via ingress, such as `http://34.140.118.144.nip.io/my-name/actuator/health`
+3. Start load-test
+    * Open load-test GUI in browser
+      http://localhost:8089
+    * Configure load test:
+        * Number of users: 25
+        * Spawn rate (users started/second): 10
+        * Host: public url to your service via ingress, such as `http://34.140.118.144.nip.io/my-name/actuator/health`
+    * Start load test by clicking `Start swarming`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see effects of autoscaler.
 
